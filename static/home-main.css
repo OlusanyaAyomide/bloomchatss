@@ -714,7 +714,4 @@ img{
     .topics .topic{
         font-size:0.8rem;
       }
-    #main{
-        transform: scale(0.5,0.5);
-    }
 }
