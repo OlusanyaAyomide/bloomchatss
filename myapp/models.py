@@ -30,7 +30,7 @@ class Room(models.Model):
         return self.name
 
     def save(self,*args,**kwargs):
-        self.slug=slugify(self.topic.name + " " + self.name + ' '+self.host.username + ' ' +self.title)
+        self.slug=slugify(self.topic.name + " " + self.name + " " +self.host.username)
         super().save(*args,**kwargs)
 
 class Message(models.Model):
