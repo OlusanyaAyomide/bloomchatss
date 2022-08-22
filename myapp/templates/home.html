@@ -113,8 +113,7 @@
                 </div>
                 {% for entry in trending%}
                 <div class="side-top-trend all-rooms">
-                    <h4>{{entry.name}}</h4>
-                    <h4><a href="/?q={{entry.name}}" class="create-link">Filter</a></h4>
+                    <h4><a href="/?q={{entry.name}}" class="create-link">{{entry.name}}</a></h4>
                 </div>
                 {%endfor%}
               
@@ -125,8 +124,7 @@
                 </div>
                 {%for topic in topics%}
                 <div class="side-top-trend all-rooms">
-                    <h4>{{topic.name}}</h4>
-                    <h4><a href="?q={{topic.name}}" class="create-link">Filter</a></h4>
+                    <h4><a href="?q={{topic.name}}" class="create-link">{{topic.name}}</a></h4>
                 </div>
                 {%endfor%}
             </div>              

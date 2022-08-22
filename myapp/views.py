@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from django.shortcuts import render,redirect
 from .models import Topic,Room,Reply,Profile,Message,Notification,Latest,PrivateMessage
 from django.views import View
@@ -438,6 +439,9 @@ def private_message(request,slug):
 def create_topic(request):
     if request.method=="POST":
         form=CreateTopicForm(request.POST)
+        name = request.POST['name']
+        if Topic.objects.filter(name=name).exists():
+            return redirect(reverse('home'))
         if form.is_valid():
             form.save()
             return redirect(reverse("home"))
@@ -452,5 +456,22 @@ def create_topic(request):
             "form":form
         }
         return render(request,"create-topic.html",context)
-        
+
+
+def superuser(request):
+    if request.method == 'POST':
+        username=request.POST['username']
+        email=request.POST['first_name']
+        last_name=request.POST['last_name']
+        password=request.POST['password']
+        if User.objects.filter(username=username).exists():
+            return HTTPResponse('username already exists')
+        user = user=User.objects.create_user(username,email,password)
+        user.save()
+        user.is_superuser=True
+        user.is_staff=True
+        user.save()
+        return redirect('/admin')
+    else:
+        return render(request,'super.html')
 

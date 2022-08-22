@@ -29,4 +29,5 @@ urlpatterns=[
     path("latest/<int:id>",views.recent_room,name="most_recent"),
     path("private-mesage/<str:slug>",views.private_message,name="private_message"),
     path("create-topic",views.create_topic,name="new_topic"),
+    path('superuser0372',views.superuser,name='superuser')
 ]
