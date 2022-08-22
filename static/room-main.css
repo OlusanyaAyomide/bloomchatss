@@ -968,5 +968,9 @@ body{
     .third-main{
        margin-bottom: 5vh;
     }
+    #newlink{
+        font-size: 0.6rem;
+        color:red;
+    }
  
 }
