@@ -714,4 +714,8 @@ img{
     .topics .topic{
         font-size:0.8rem;
       }
+      #newlink{
+        font-size: small;
+
+      }
 }
