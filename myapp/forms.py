@@ -11,7 +11,7 @@ class loginForm(forms.Form):
     password=forms.CharField(widget=forms.PasswordInput())
 
 class CreateRoomForm(forms.Form):
-    Topic=forms.ModelChoiceField(required=True,widget=forms.Select,queryset=Topic.objects.all())
+    Topic=forms.ModelChoiceField(required=True,widget=forms.Select,queryset=Topic.objects.all)
     Room_Name=forms.CharField(max_length=100)
     Add_Description=forms.CharField(widget=forms.Textarea,label="Add Room Description")
   

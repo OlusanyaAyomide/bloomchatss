@@ -16,11 +16,7 @@ img{
     box-sizing:border-box;
     margin:0;
 }
-body{
-    min-height:100vh;
-    height:auto;
-    background-color: var(--black);
-}
+
 #study{
     font-size:3.2vw;
     margin-top:4px;
