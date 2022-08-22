@@ -30,7 +30,7 @@ class Room(models.Model):
         return self.name
 
     def save(self,*args,**kwargs):
-        self.slug=slugify(self.topic.name + " " + self.name)
+        self.slug=slugify(self.topic.name + " " + self.name + ' '+self.host.username)
         super().save(*args,**kwargs)
 
 class Message(models.Model):
@@ -45,7 +45,7 @@ class Message(models.Model):
         ordering=("-created",)
 
     def save(self,*args,**kwargs):
-        self.slug=slugify(self.message_by.first_name + " " + self.message_by.username)
+        self.slug=slugify(self.message_by.first_name + " "+ helper.randoms()+ + self.message_by.username)
         super().save(*args,**kwargs)
 
     def __str__(self):
@@ -60,7 +60,7 @@ class Reply(models.Model):
     slug=models.SlugField(default="",null=True)
 
     def save(self,*args,**kwargs):
-        self.slug=slugify(self.reply_by.first_name + " " + self.reply_by.username )
+        self.slug=slugify(self.reply_by.first_name + ' '+ helper.randoms() + self.reply_by.username )
         super().save(*args,**kwargs)
 
     class Meta:
