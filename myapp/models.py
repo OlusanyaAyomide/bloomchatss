@@ -45,7 +45,7 @@ class Message(models.Model):
         ordering=("-created",)
 
     def save(self,*args,**kwargs):
-        self.slug=slugify(self.message_by.first_name + " "+ helper.randoms()+ + self.message_by.username)
+        self.slug=slugify(self.message_by.first_name + " "+ helper.randoms()+ self.message_by.username)
         super().save(*args,**kwargs)
 
     def __str__(self):
