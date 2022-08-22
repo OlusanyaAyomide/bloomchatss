@@ -1,20 +1,28 @@
 from django import forms
 from .models import Topic,Room,Message,Reply,Topic
 from django.forms import ModelForm
-CHOICES=[]
+choisess=[]
 for i in Topic.objects.all():
-    CHOICE=[(i.name),(i.name)]
-    CHOICES.append(CHOICE)
+    chois=[(i.name),(i.name)]
+    choisess.append(chois)
 
 class loginForm(forms.Form):
     username=forms.CharField(max_length=200)
     password=forms.CharField(widget=forms.PasswordInput())
 
 class CreateRoomForm(forms.Form):
-    Topic=forms.ChoiceField(choices=CHOICES)
+    Topic=forms.ModelChoiceField(required=True,widget=forms.Select,queryset=Topic.objects.all())
     Room_Name=forms.CharField(max_length=100)
     Add_Description=forms.CharField(widget=forms.Textarea,label="Add Room Description")
   
+class CreateRoomModelForm(forms.Form):
+    class Meta:
+        model=Room
+        fields=['name','topic','title']
+        label={
+            'room':'Room Name',
+            'title':'Add description'
+        }
 
 class UpdateForm(ModelForm):
     class Meta:
