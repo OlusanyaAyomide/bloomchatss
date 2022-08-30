@@ -1,0 +1,77 @@
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DM</title>
+    <link rel="stylesheet" href="{% static 'chatM.css' %}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">    
+</head>
+<body>
+    <div id="chat-div">
+        <div id="chat-top">
+            <div><div id="chat-img-div"><a href="/profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}" alt=""></a></div></div>
+            <button id="chat-desc">{{receiver.username}}</button>
+            <a href="/"><button id="to-home-button"><i class="fa fa-home" id="chat-to-home"></i></button></a>
+        </div>
+    </div>
+        {%if private.count == 0%}
+        <div id='zero-message'>
+            <h1>Start A Conversattion With {{receiver.username}}</h1>
+        </div>
+        {%else%}
+        </div>
+        <div id="chat-main">
+            <!-- LOOp HERE -->
+            <!-- LOOp HERE -->
+            {%for message in private%}
+            {%if user == message.receiver%}
+            <div class="receiver" id="sender-id">
+                <div id="img-cont">
+                    <div class="sender-img-div"><a href="/profile-view/{{receiver.profile.slug}}"><img src="{{receiver.profile.image.url}}" alt=""></a></div>
+                </div>
+                <div id="send-msg-cont">
+                    <h3 id="sender-link"><a href="#" class="blue-anchor">@{{receiver.first_name}} {{receiver.last_name}}</a></h3>
+                <p>{{message.content}}</p>
+                <h4 id='chat-time'>{{message.created|timesince}}</h4>
+                </div>
+            </div>
+            
+            {%else%}
+            <!-- END LOOP -->
+            <!-- END LOOP -->
+
+            <!-- LOOP HERE -->
+            <!-- LOOP HERE -->
+            <div class="rsender" id="sender-div">
+                <div>
+                    <p>{{message.content}}</p>
+                    <h4 id='chat-time'>{{message.created|timesince}}</h4>
+                </div>
+            </div>
+            {%endif%}
+            {%endfor%}  
+            {%endif%}          
+
+            
+                <!-- END LOOP-->
+                <!-- END LOOP-->
+            
+            <!-- <div class="receiver">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel autem voluptatum quia fuga assumenda aperiam cupiditate molestiae suscipit earum dicta.
+            </div> -->
+        </div>
+       
+       
+        <form id="chat-send" action="{% url 'message' receiver.username%}" method="POST">
+        {%csrf_token%}
+            <input type="text" id="chat-input" name="content" placeholder="Send message">
+            <button type="submit" id="send-message"><i class="fa fa-paper-plane"></i></button>
+        </form>
+        
+    </div>
+<script src="{% static 'js/chatM.js'%}"></script>
+</body>
+</html>

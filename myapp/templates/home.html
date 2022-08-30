@@ -34,6 +34,7 @@
              {%else%}
              <a id="login" href="{% url 'login' %}">login</a>
              {%endif%}
+             
          </div>
     </div>
     <div id="below-header">
@@ -77,7 +78,7 @@
                         {%endif%}
                     </div>
                 </div>  
-                <div class="group-desc "><a href="{% url 'room-view' room.slug%}">{{room.title}}</a>
+                <div class="group-desc "><a href="{% url 'room-view' room.id%}">{{room.title}}</a>
                 </div>
                 <div class="group-desc group-icons">
                     {% for objects in room.participants.all%}
@@ -155,7 +156,7 @@
                     <div class="activity-list">
                         <div class="activity-list-top">
                             <div class="activity-pic"><img src="{{activity.user.profile.image.url}}" alt=""></div>
-                            <div class="activity-name"><a href="/pofile-view/{{activity.profile.slug}}" id="activity-linkd">@{{activity.user.username}}</a></div>
+                            <div class="activity-name"><a href="/profile-view/{{activity.user.profile.slug}}" id="activity-linkd">@{{activity.user.username}}</a></div>
                         </div>
                         <h4>{{activity.display}}</h4>
                         <h5 id="nownow"><a href="{{activity.link}}" id="activity-linkd">Click to View</a></h5>

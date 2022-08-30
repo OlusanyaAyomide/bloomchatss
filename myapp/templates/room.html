@@ -116,7 +116,7 @@
                 </div> 
                 <div>
                     {%if user in room.participants.all%}
-                    <form method="POST" action="{% url 'create-message' room.slug%}">
+                    <form method="POST" action="{% url 'create-message' room.id%}">
                     {%csrf_token%}
                         <div id="submit-message" >
                             <textarea name="body" rows="3" cols="30" type="text" placeholder="Leave a message"></textarea>

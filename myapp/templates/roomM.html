@@ -1,0 +1,181 @@
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room View</title>
+    <link rel="stylesheet" href="{% static 'roomM2.css' %}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">    
+</head>
+<body>
+
+    <!-- CHAT -->
+    <!-- CHAT -->
+    <div id="chat-div">
+        <div id="chat-top">
+            {%if user.is_authenticated%}
+            <div><div id="chat-img-div"><a href="/profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+            <button id="chat-desc">{{room.title}}</button>
+            <a href="/"><button id="to-home-button"><i class="fa fa-home" id="chat-to-home"></i></button></a>
+        </div>
+        {%if room.room.all.count  == 0%}
+        {% if user in room.participants.all%}
+        <div id='zero-message'>
+            <div id='zero-control'>
+                <h1>This Room has no message yet...</h1>
+                <h3>Send a message to start a conversation</h3>  
+            </div>    
+        </div>
+        {%endif%}
+        {%endif%}
+        {% if user in room.participants.all%}
+        {%else%}
+        <div id='outside'>
+            <div>
+                <h2>You are not a member of this Room</h2>
+                <h3 id='room-join-button'><a class = 'white-anchor' href="{% url 'join' room.id %}">Click To Join Room</a>
+            </div></h3>
+        </div>
+
+        {%endif%}
+        <div id="chat-main">
+            {%for message in messages%}
+            <!-- LOOp HERE -->
+            <!-- LOOp HERE -->
+            {%if user != message.message_by %}
+            <div class="receiver" id="sender-id">
+                <div id="img-cont">
+                    <div class="sender-img-div"><a href="/profile-view/{{message.message_by.profile.slug}}"><img src="{{message.message_by.profile.image.url}}" alt=""></a></div>
+                </div>
+                <div id="send-msg-cont">
+                    <h3 id="sender-link"><a href="#" class="blue-anchor">@{{message.message_by.username}}</a></h3>
+                <p id='message-body'>{{message.body}}</p>
+                    <div id="chat-bottom-div">
+                        {%if message.replies.all.count == 0 %}
+                        <div id="send-sms"><h5><i class="fa fa-sms" ></i ><a href="/replies/{{message.id}}">reply</a></h5></div>
+                        {%else%}
+                        <div><h3><i class="fa fa-sms" id="send-sms" ></i ><a href="/replies/{{message.id}}">View {{message.replies.all.count}} reply</a></h3></div>
+                        {%endif%}
+                        {%if message.likes.all.count > 0%}
+                        {%if user in message.likes.all%}
+                        <div><a href="/unlike/{{message.id}}" class='blue-anchor'><i class="fa fa-thumbs-up blue " id="send-sms">{{message.likes.all.count}}</i><a/></div>
+                        {%else%}
+                        <div><a href="/like/{{message.id}}" class='black-anchor'><i class="fa fa-thumbs-up black " id="send-sms">{{message.likes.all.count}}</i><a/></div>
+                        {%endif%}
+                        {%else%}
+                        <div><a href="/like/{{message.id}}" class='black-anchor'><i class="fa fa-thumbs-up black " id="send-sms"></i><a/></div>
+                        {%endif%}
+                    </div>
+                    <h4 id='message-time'>{{message.created|timesince}} ago</h4>
+                </div>
+            </div>
+            <!-- END LOOP -->
+            <!-- END LOOP -->
+
+            <!-- LOOP HERE -->
+            <!-- LOOP HERE -->
+            {%else%}
+            <div class="rsender r-sender" id="sender-div">
+                <div>
+                    <p id='message-body'>{{message.body}}</p>
+                </div>
+                <div id="chat-bottom-div">
+                    {%if message.replies.all.count == 0 %}
+                    <div id="send-sms"><h5><i class="fa fa-sms" ></i ><a href="/replies/{{message.id}}">reply</a></h5></div>
+                    {%else%}
+                    <div><h3><i class="fa fa-sms" id="send-sms" ></i ><a href="/replies/{{message.id}}">View {{message.replies.all.count}} reply</a></h3></div>
+                    {%endif%}
+                        <h3><a href="{% url 'edit-room' message.id room.id %}">Edit</a></h3>
+                        <h3><a href="{% url 'delete-message' message.id%}">Delete</a></h3>
+                        {%if message.likes.all.count > 0%}
+                        {%if user in message.likes.all%}
+                        <div><a href="/unlike/{{message.id}}" class='blue-anchor'><i class="fa fa-thumbs-up blue " id="send-sms">{{message.likes.all.count}}</i><a/></div>
+                        {%else%}
+                        <div><a href="/like/{{message.id}}" class='black-anchor'><i class="fa fa-thumbs-up black " id="send-sms">{{message.likes.all.count}}</i><a/></div>
+                        {%endif%}
+                        {%else%}
+                        <div><a href="/like/{{message.id}}" class='black-anchor'><i class="fa fa-thumbs-up black " id="send-sms"></i><a/></div>
+                        {%endif%}
+                </div>
+                <h4 id='message-time'>{{message.created|timesince}} ago</h4>
+            
+            </div>
+            {%endif%}
+            {%endfor%}
+            
+                <!-- END LOOP-->
+                <!-- END LOOP-->
+            
+            <!-- <div class="receiver">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel autem voluptatum quia fuga assumenda aperiam cupiditate molestiae suscipit earum dicta.
+            </div> -->
+        </div>
+       
+        {% if user in room.participants.all%}
+        <form id="chat-send" method="POST" action="{% url 'create-message' room.id%}">
+            {%csrf_token%}
+            <input type="text" name ='body' id="chat-input" placeholder="Send message">
+            <button type="submit" id="send-message"><i class="fa fa-paper-plane"></i></button>
+        </form>
+        {%endif%}
+    </div>
+    <!-- CHAT -->
+    <!-- CHAT -->
+
+
+
+
+    <!-- DESCRIPTION -->
+    <!-- DESCRIPTION -->
+    <div id="description-div">
+        <div id="desc-top">
+            <div id="desc-back">
+                <button id="room-back"><i class="fa fa-arrow-left" id="desc-back"></i></button>
+            </div>
+            <div id="desc-top-bloom">Bloom Chats</div>
+        </div>
+        <div id="room-intro">
+        <h2 id="room-name">{{room.name}}</h2>
+        <div id="room-top">
+            <div id="room-control">
+                <div id="room-host-img"><a href="/profile-view/{{room.host.profile.slug}}"> <img src="{{room.host.profile.image.url}}" alt=""></div>
+                <h3>Hosted by {{room.host.username}}</h3> 
+                <h3 id="room-part">{{room.participants.all.count}} participants</h3>
+            </div>
+        </div>
+        <p id="room-description">Room Description</p>
+        <p id="room-description-content">{{room.title}}</p>
+        </div>
+        <h2 id="room-participant-top">Room Participants</h2>
+        
+   
+        {%for pat in room.participants.all%}    
+        <div id="pat-main">
+            <div><div class="pat-image"><a href="/profile-view/{{pat.profile.slug}}"><img src="{{pat.profile.image.url}}" alt=""></a></div></div>
+            <div class="room-pat-main">
+                <h4><a href="#" class="blue-anchor">{{pat.username}}</a></h4>
+                <h3>{{pat.first_name}} {{pat.last_name}}</h3>
+            </div>
+        </div>  
+        {%endfor%}
+        {%if user in room.participants.all%}
+        <div id='room-buttons' >
+            {%if user == room.host%}
+            <div class='room-status'><a href="/edit-room/{{room.id}}"><button><i class='fa fa-edit' id='edit-room'></i>Edit Room</button></a></div>
+            <div class='room-status'><a href= "{% url 'delete-room' room.id %}"><button><i class='fa fa-trash' id='delete-room'></i>Delete Room</button></a><div>
+            {%endif%}
+            <div class='room-status'><a href="{% url 'leave' room.id %}"><button><i class='fa fa-window-close' id='leave-room'></i>Leave Room</button></a></div>
+        </div>
+        {%endif%}
+
+
+    </div>
+
+    <!-- DESCRIPTION -->
+    <!-- DESCRIPTION -->
+<script src="{% static 'js/roomM.js'%}"></script>
+</body>
+</html>

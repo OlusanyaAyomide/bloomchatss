@@ -24,6 +24,9 @@ body{
 /* div{
     border:0.2px solid grey
 } */
+*{
+    font-family:Roboto;
+}
 .header{
     display:flex;
     justify-content:center;

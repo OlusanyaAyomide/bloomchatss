@@ -1,0 +1,114 @@
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile-View</title>
+    <link rel="stylesheet" href="{% static 'profileM2.css' %}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">    
+</head>
+<body>
+    <div id="profile-div">
+        <div id="search-top">
+            {%if user.is_authenticated%}            
+            <div id="search-imgdiv"><a href="/profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}" alt=""></a></div>
+            {%endif%}
+
+            <form id="search-room-form" action="/profile-search/{{profile.slug}}" method="POST">
+            {%csrf_token%}
+                <input type="text" id="search-room" name='search' placeholder="search Profile">
+            </form>
+            <a href="/"><button id="to-home-button"><i class="fa fa-home" id="chat-to-home"></i></button></a>
+        </div>
+    </div>
+    <div id="profile-space"><img id='special-image' src="{{profile.cover_image.url}}" alt=""></div>
+    <div id="profile-image"><img src="{{profile.image.url}}" alt=""></div>
+    {%if edit%}
+    <div id="profile-status"><a href="/edit-profile/{{profile.slug}}"><button class='profile-statuss'>Edit Profile</button></a></div>
+    {%else%}
+    {%if unfollow %}
+    <div id="profile-status"><a href="/unfollow/{{profile.slug}}"><button class = 'profile-statuss'>Unfollow</button></a></div>
+    {%else%}
+    <div id="profile-status"><a href="/follow/{{profile.slug}}"><button class= 'profile-statuss'>Follow</button></a></div>
+    {%endif%}
+    {%endif%}
+    <div id="profile-status">
+        <div id="profile-info">
+            <h2>{{profile.profile.username}}</h2>
+            <h3>{{profile.profile.first_name}} {{profile.profile.last_name}}</h3>
+            <h4>{{profie.profile.email}}</h4>
+        </div>
+    </div>
+    <div id="profile-detail">
+        <h4>{{profile.following.all.count}} following</h4>
+        <h4>{{profile.followers.all.count}} follower</h4>
+        <h4>{{profile.residence}}</h4>
+    </div>
+    <div id="room-nav-button">
+        <button id="room-button">Rooms</button>
+        <button id="comment-button">Comments</button>
+    </div>
+    <div id="rooms">
+
+        {%for room in profile.profile.participants.all%}
+        <div class="recent-recent-items">                
+            <div id="recent-recent-style"></div>
+            <div id="recent-recent-parent">
+                <div id="recent-item-top">
+                    <div class="recent-imgdiv"><img src="{{room.host.profile.image.url}}" alt=""></div>
+                </div>
+                <div>
+                    <h3 id="recent-item-content">{{room.name}}</h3>
+                    <h3 class="recent-item-click"><a href="/chatroom/{{room.id}}" id='blue-anchor'>Click to view Room</a></h3></h4>
+                    <div id="recent-split"></div>
+                </div>
+            </div>
+          <div class="recent-section-div"></div>
+        </div>
+
+        {%endfor%}
+
+
+    </div>
+
+    <!-- Comments
+        COMMENTS -->
+
+    <div id="comments">
+        {% for message in profile.profile.message_by.all|dictsortreversed:'created'%}
+        <div class="recent-recent-items">                
+            <div id="recent-recent-style"></div>
+            <div id="recent-recent-parent">
+                <div id="recent-item-top">
+                    <div><div class="recent-imgdiv"><img src="{{message.room.host.profile.image.url}}" alt=""></div></div>
+                    <h3>{{message.created|timesince}} ago</h3>
+                </div>
+                <div>
+                    <h3 id="recent-item-content"><span class="recent-item-span"><a href="#" class="blue-anchor">@{{profile.profile.username}}</a></span> Commented in Room {{message.room.name}}</h3>
+                    <h3 class="recent-item-click"><a href="/chatroom/{{message.room.id}}" id='blue-anchor'>Click to view Room</a></h3></h4>
+                    <div id="recent-split"></div>
+                </div>
+            </div>
+          <div class="recent-section-div"></div>
+        </div>
+        {%endfor%}
+    </div>
+
+    
+    <!-- Comments
+        COMMENTS -->
+        {%if user.is_authenticated%}
+        {%if user != profile.profile%}
+        {%if user in profile.followers.all%}
+    <div id="dm-div">
+        <p>Send a DM</p>
+        <div id="send-div"><a href="/private/{{profile.profile.username}}"><i class="fa fa-paper-plane" id="send-dm"></i></a></div>
+    </div>
+        {%endif%}
+        {%endif%}
+        {%endif%}
+<script src="{% static 'js/profileM.js'%}"></script>
+</body>
+</html>

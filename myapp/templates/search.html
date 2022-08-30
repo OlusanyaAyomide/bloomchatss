@@ -6,15 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'search2.css'%} ">
-    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet"> 
+    <title>Search Profile</title>
 </head>
 <body>
     <div id="header">
+        {%if user.is_authenticated%}
         <h3><a href="/profile-view/{{user.profile.slug}}" id="back-link">Back</a></h3>
+        {%else%}
+        <h3><a href="/" id="back-link">Back</a></h3>
+        {%endif%}
+        {%if user.is_authenticated%}
         <div id="profile-pic"><img src="{{user.profile.image.url}}" alt=""></div>
+        {%endif%}
     </div>
     {% if result.count > 0%}
-    <h3 id="display">Related Profiles :{{result.count}}</h3>
+    <h3 id="display">{{result.count}} Results</h3>
     {% for profile in result %}
     <div id="message">
         <div class="message-pic">
@@ -27,6 +35,6 @@
     </div>
     {%endfor%}
     {%else%}
-    <h3 id="display">No Result Match </h3>
+    <h3 id="display">No profile Match </h3>
     {%endif%}
 </body>

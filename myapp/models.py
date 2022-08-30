@@ -40,9 +40,10 @@ class Message(models.Model):
     updated=models.DateTimeField(auto_now=True)
     room = models.ForeignKey(Room,on_delete=models.CASCADE,related_name="room")
     slug=models.SlugField(default="",null=True)
-    
+    likes=models.ManyToManyField(User,related_name='likes',blank=True)
+
     class Meta:
-        ordering=("-created",)
+        ordering=("created",)
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.message_by.first_name + " "+ helper.randoms()+ self.message_by.username)
@@ -106,11 +107,18 @@ class Latest(models.Model):
 
         ordering=("-created",)
 class PrivateMessage(models.Model):
-    profile=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="private")
-    sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_dm")
+    receiver=models.ForeignKey(User,related_name="mreceiver",on_delete=models.SET_NULL,null=True)
+    sender=models.ForeignKey(User,related_name="msender",on_delete=models.SET_NULL,null=True)
     content=models.CharField(max_length=2000)
     created=models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'from {self.sender.username} to {self.receiver.username}'
     class Meta:
-        ordering=("-created",)
 
+        ordering=("created",)
+
+class Unread(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE,null=True,related_name='unread')
+    note_count=models.IntegerField(null=True,blank=True)
+    dm_count=models.IntegerField(null=True,blank=True)

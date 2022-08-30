@@ -16,6 +16,9 @@ img{
     border-radius:50%;
     object-fit:cover;
 }
+*{
+    font-family:Roboto;
+}
 /* div{
     border:0.2px solid grey;
 } */

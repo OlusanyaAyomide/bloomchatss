@@ -1,0 +1,285 @@
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'homeM.css' %}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">    
+</head>
+<body>
+
+    <div id='check'>{{rendering}}</div>
+    <!-- HOME DIV ///////////////////////////-->
+    <!-- HOME DIV ///////////////////////////-->
+    <div id="room-list-div">
+        <div id="room-top">
+            {%if user.is_authenticated%}
+            <div><div id="search-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+         
+            <div id="room-rocket-top">
+                <i class="fa fa-rocket" id="room-rocket"></i>
+           </div>
+           {%if user.is_authenticated%}
+           <h2><a href="/logout">logout</a></h2>
+           {%else%}
+           <h2><a href="/login">login</a></h2>
+           {%endif%}
+        </div>
+        <h2 id="room-info">All Rooms {{rooms.count}}</h2>
+        <div class="room-create"><a class='white-anchor' href="/create"><i class="fa fa-plus" ></i></a></div>
+        <div id="all-rooms">
+            {%for room in rooms%}
+            <div class="room-items">
+                <div class="room-item-style"></div>
+                <div class="room-item-main">
+                    <div>
+                        <div class="room-item-top">
+                            <div class="room-item-top-left">
+                                <div class="room-item-image-div"><a href="profile-view/{{room.host.profile.slug}}"><img src="{{room.host.profile.image.url}}" alt="#"></a></div>
+                                <h5 class="room-item-host">{{room.host.first_name}} {{room.host.last_name}}</h5>
+                                <h2 class="room-item-message-count">{{room.room.all.count}}<i class="fa fa-sms"></i></h2>
+                            </div> 
+                        </div>
+                    </div>
+                    <div>
+                        <a href="/chatroom/{{room.id}}" class="room-link"><button class="room-item-title">{{room.name}}</button></a>
+                        <div class="room-item-participants">
+                            {% for objects in room.participants.all%}
+                            {% if forloop.counter > 6 %}
+                            {%else%}
+                            {%if objects != room.host%}                
+                            <div><img src="{{objects.profile.image.url}}" class="room-item-images"></div>
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                        <div class="room-item-divide">
+                        </div>
+                        <div class="room-item-bottom">
+                            <h3>{{room.participants.all.count}} participants</h3>
+                            <h3 class="room-item-topic">{{room.topic.name}}</h3>
+                        </div>
+                        <h5 class="room-item-create-time">{{room.created|timesince}}</h5>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="room-item-margin"></div>
+            {%endfor%}
+
+                <!-- ENDLOOP -->
+        </div>
+    </div>
+    
+
+    
+    <!-- HOME DIV ///////////////////////////-->
+    <!-- HOME DIV ///////////////////////////-->
+    
+
+    <!-- SEACRCH DIV ///////////////////////////-->
+    <!-- SEACRCH DIV ///////////////////////////-->
+    <div id="search-div">
+        <div id="search-top">            
+            {%if user.is_authenticated%}
+            <div><div id="search-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+         
+           <form id="search-room-form" action='room-search' method='POST'>
+            {%csrf_token%}
+                <input type="text" name='search' id="search-room" placeholder="search room">
+           </form>
+    
+           {%if user.is_authenticated%}
+           <h2><a href="/logout">logout</a></h2>
+           {%else%}
+           <h2><a href="/login">login</a></h2>
+           {%endif%}
+        </div>
+        <div class="room-create"><a href="/create-topic" class='white-anchor'><i class="fa fa-plus"></a></i></div>
+        <div id="search-welcome">
+            {%if user.is_authenticated%}
+            <h3>{{user.username}} Welcome to </h3>
+            {%endif%}
+            <div id="search-bloom"><h1 data-text='BloomChats' id="styling">BloomChats</h1></div>
+        </div>
+        <div id="search-trending">
+            <h2>Trending Topics for you</h2>
+            {%for topic in trending%}
+            <a href="?q={{topic.name}}"><button class="search-trending">{{topic.name}}</button></a>
+            {%endfor%}
+        </div>
+        <div id="search-trending">
+            <h2><a href="/" class='blue-anchor'>All Topics</a></h2>
+            {% for topic in topics%}
+            <a href="?q={{topic.name}}"><button class="search-trending">{{topic.name}}</button></a>
+            {%endfor%}
+        </div>
+    </div>
+
+    <!-- SEACRCH DIV ///////////////////////////-->
+    <!-- SEACRCH DIV ///////////////////////////-->
+
+
+
+    <!-- NOTIFICATIONS ///////// -->
+    <!-- NOTIFICATIONS ///////// -->
+    <div id="notification-div" class="note">
+        <div id="recent-top">
+            {%if user.is_authenticated%}
+            <div><div id="recent-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+         
+            <div id="recent-top-bloom">BloomChats</div>
+            {%if user.is_authenticated%}
+            <h2><a href="/logout">logout</a></h2>
+            {%else%}
+            <h2><a href="/login">login</a></h2>
+            {%endif%}
+        </div>
+
+    
+        <div id="notification-main">
+            <h2 id="note-count">Notifications ({{user.notification.all.count}})</h2>
+            {%for item in user.notification.all%}
+            <div class="recent-recent-items">                
+                <div id="recent-recent-style"></div>
+                <div id="recent-recent-parent">
+                    <div id="recent-item-top">
+                        <div class="recent-imgdiv"><a href="profile-view/{{item.sender.profile.slug}}"><img src="{{item.sender.profile.image.url}}" alt=""></a></div>
+                        <h3>{{item.time_sent|timesince}} ago</h3>
+                    </div>
+                    <div>
+                        <h4 id="recent-item-content"><span class="recent-item-span">{{item.content}}</h3>
+                        <h3 class="recent-item-click"><a href="/notification{{item.link}}">Click to view</a></h3>
+                        <div id="recent-split"></div>
+                    </div>
+                </div>
+              <div class="recent-section-div"></div>
+            </div>
+            {%endfor%}
+        </div>
+
+        
+    </div>
+
+    <!-- NOTIFICATIONS ///////// -->
+    <!-- NOTIFICATIONS ///////// -->
+
+
+    <!-- DM-DIV -->
+    <!-- DM-DIV -->
+
+    <div id="dm-div">
+        <div id="recent-top">
+            {%if user.is_authenticated%}
+            <div><div id="recent-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+         
+            <div id="recent-top-bloom">BloomChats</div>
+            {%if user.is_authenticated%}
+            <h2><a href="/logout">logout</a></h2>
+            {%else%}
+            <h2><a href="/login">login</a></h2>
+            {%endif%}
+        </div>
+        <div id="mail-main">
+            <h2 id="note-count">Total Messages {{user.mreceiver.all.count}}</h2>
+            {%for mail in user.mreceiver.all|dictsortreversed:'created'%}
+            <div id="note-items-parent">
+                <div id="note-items">
+                    <div id="mail-image"><a href="profile-view/{{mail.sender.profile.slug}}"><img src="{{mail.sender.profile.image.url}}" alt=""></a></div>
+                    <div id="note-content"><h3>{{mail.content|truncatewords:7}}</h3></div>
+                </div>
+                <div id='item-bottom'>
+                   <a class='blue-anchor' href="/chat/{{mail.sender.username}}"><h3>Reply {{mail.sender.username}}</h3></a>
+                    <h5>{{mail.created|timesince}} ago</h5>
+                </div>
+            </div>
+            {%endfor%}
+
+        </div>
+    </div>
+
+    <!-- DM-DIV -->
+    <!-- DM-DIV -->
+
+
+    <!-- RECENTDIV //////////////////////////// -->
+    <!-- RECENTDIV //////////////////////////// -->
+    <div id="recent-div">
+        <div id="recent-top">
+            {%if user.is_authenticated%}
+            <div><div id="recent-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+         
+            <div id="recent-top-bloom">BloomChats</div>
+            {%if user.is_authenticated%}
+            <h2><a href="/logout">logout</a></h2>
+            {%else%}
+            <h2><a href="/login">login</a></h2>
+            {%endif%}
+        </div>
+        <div id="recent-recent">
+            <h2>Recent Activities</h2>
+            {%for item in latest%}
+            <div class="recent-recent-items">                
+                <div id="recent-recent-style"></div>
+                <div id="recent-recent-parent">
+                    <div id="recent-item-top">
+                        <div class="recent-imgdiv"><a href="/profile-view/{{item.user.profile.slug}}"><img src="{{item.user.profile.image.url}}"></a></div>
+                        <h3>{{item.created|timesince}} ago</h3>
+                    </div>
+                    <div>
+                        <h4 id="recent-item-content"><span class="recent-item-span"><a href="/profile-view/{{item.user.profile.slug}}" class="blue-anchor">@JumperLe</a></span>{{item.display}}</h3>
+                        <h3 class="recent-item-click"><a href="{{item.link}}" id='blue-anchor'>Click to view</a></h3></h4>
+                        <div id="recent-split"></div>
+                    </div>
+                </div>
+              <div class="recent-section-div"></div>
+            </div>
+           {%endfor%}
+            <div id="recent-top-host">
+                <h2>Top Hosts</h2>
+                {%for top in toppers%}
+                <div id="top-host-item">
+                    <div id="top-host-image"><a href="/profile-view/{{top.profile.slug}}"><img src="{{top.profile.image.url}}" alt=""></a></div>
+                    <div id="top-host-details">
+                        <h4>{{top.username}}</h4>
+                    <h3><a href="profile-view/{{top.profile.slug}}" class="blue-anchor">View Profile</a></h3>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>   
+        </div>
+    </div>
+    <!-- RECENTDIV //////////////////////////// -->
+    <!-- RECENTDIV //////////////////////////// -->
+    <div id="nav-control">
+        <div id="down-nav-bar">
+            <buton class="bottom-nav" id="home"><i class ='fa fa-home'></i></buton>
+            {%if user.is_authenticated%}
+            {% if user.unread.note_count < 1 %}
+            <buton class="bottom-nav" id="notification"><i class="fa fa-bell"></i></buton>
+            {%else%}
+            <buton class="bottom-nav" id="notification"><i class="fa fa-bell"></i><span id="notification-count">+{{user.unread.note_count}}</span></buton>
+            {%endif%}
+            {%endif%}
+            <buton class="bottom-nav" id="search"><i class="fa fa-search"></i></buton>
+            {%if user.is_authenticated%}
+            {% if user.unread.dm_count < 1 %}
+            <buton class="bottom-nav" id="dm"><i class="fa fa-sms"></i></buton>
+            {%else%}
+            <buton class="bottom-nav" id="dm"><i class="fa fa-sms"></i><span id="notification-count">+{{user.unread.dm_count}}</span></buton>     
+            {%endif%} 
+            {%endif%}      
+            <buton class="bottom-nav" id="recent"><i class="fa fa-clock"></i></buton>
+        </div>
+    </div>
+<script src="{% static 'js/homeM2.js'%}"></script>
+</body>
+</html>

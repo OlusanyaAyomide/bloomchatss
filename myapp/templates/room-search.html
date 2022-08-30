@@ -1,0 +1,84 @@
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'roomSM.css' %}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">    
+</head>
+<body>
+    <div id="room-list-div">
+        
+        <div id="room-top">
+            {%if user.is_authenticated%}
+            <div><div id="search-imgdiv"><a href="profile-view/{{user.profile.slug}}"><img src="{{user.profile.image.url}}"></a></div></div>
+            {%endif%}
+            <div id="room-rocket-top">
+                <i class="fa fa-rocket" id="room-rocket"></i>
+           </div>
+           {%if user.is_authenticated%}
+           <h2><a href="/logout">logout</a></h2>
+           {%else%}
+           <h2><a href="/login">login</a></h2>
+           {%endif%}
+           <a href="/"><button id='to-home'><i class='fa fa-home'></i></button></a>
+        </div>
+        <h2 id="room-info">All Rooms {{rooms.count}}</h2>
+        <div class="room-create"><a class='white-anchor' href="/create"><i class="fa fa-plus" ></i></a></div>
+        <div id="all-rooms">
+        {%if rooms.count > 0%}
+            {%for room in rooms%}
+            <div class="room-items">
+                <div class="room-item-style"></div>
+                <div class="room-item-main">
+                    <div>
+                        <div class="room-item-top">
+                            <div class="room-item-top-left">
+                                <div class="room-item-image-div"><a href="profile-view/{{room.host.profile.slug}}"><img src="{{room.host.profile.image.url}}" alt="#"></a></div>
+                                <h5 class="room-item-host">{{room.host.first_name}} {{room.host.last_name}}</h5>
+                                <h2 class="room-item-message-count">{{room.room.all.count}}<i class="fa fa-sms"></i></h2>
+                            </div> 
+                        </div>
+                    </div>
+                    <div>
+                        <a href="/chatroom/{{room.id}}" class="room-link"><button class="room-item-title">{{room.name}}</button></a>
+                        <div class="room-item-participants">
+                            {% for objects in room.participants.all%}
+                            {% if forloop.counter > 6 %}
+                            {%else%}
+                            {%if objects != room.host%}                
+                            <div><img src="{{objects.profile.image.url}}" class="room-item-images"></div>
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                        <div class="room-item-divide">
+                        </div>
+                        <div class="room-item-bottom">
+                            <h3>{{room.participants.all.count}} participants</h3>
+                            <h3 class="room-item-topic">{{room.topic.name}}</h3>
+                        </div>
+                        <h5 class="room-item-create-time">{{room.created|timesince}}</h5>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="room-item-margin"></div>
+            {%endfor%}
+
+                <!-- ENDLOOP -->
+        </div>
+        {%else%}
+        <div id="zeroo-div">
+            <h1>Sorry No Room Met Your Search Query</h1>
+        </div>
+        {%endif%}
+    </div>
+    
+
+    
+</body>
+</html>

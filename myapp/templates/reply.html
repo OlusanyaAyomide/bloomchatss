@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'reply-main.css'%}">
+    <link rel="stylesheet" href="{% static 'replyM.css'%}">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'  rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' rel="stylesheet">  
     <title>Replies</title>
 </head>
 <body>
     <div id="header">
-        <h3><a href="/chatroom/{{message.room.slug}}" id="back-link">Back</a></h3>
+        <h3><a href="/chatroom/{{message.room.id}}" id="back-link">Back To Room</a></h3>
         <div id="profile-pic"><img src="{{user.profile.image.url}}" alt=""></div>
     </div>
     <div id="message">
@@ -19,7 +21,7 @@
         </div>
         <div id="content">
             <h4 id="ddd"><a href="/profile-view/{{message.message_by.profile.slug}}" class="new-link">{{message.message_by.username}}</a></h4>
-            <h4>{{message.body}}</h4>
+            <h3>{{message.body}}</h3>
             <h5>{{message.created|timesince}} ago</h5>
         </div>
     </div>
@@ -46,9 +48,9 @@
             {%endfor%}          
         </div>
         {% if user.is_authenticated%}
-        <form action="/create-reply/{{message.slug}}" method="POST">
+        <form id='reply-form' action="/create-reply/{{message.id}}" method="POST">
         {% csrf_token %}
-            <textarea rows="3" cols="40" name="text"></textarea>
+            <textarea rows="2" cols="40" name="text"></textarea>
             <button>Submit</button>
         </form>
         {%endif%}

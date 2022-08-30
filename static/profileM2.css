@@ -1,0 +1,248 @@
+:root{
+    --blue:rgb(47, 50, 233);
+    --image:none
+  }
+  body{
+      min-height: 100vh;
+      height:auto;
+      background: linear-gradient(145deg,aqua,rgb(192, 192, 235),aqua);
+  }
+  *{
+      margin:0;
+      padding:0;
+      box-sizing: border-box;
+      font-family:Roboto;
+  }
+  img{
+      height:100%;
+      width:100%;
+      border-radius:50%;
+  }
+  a{
+      text-decoration: none;
+      color:black
+  }
+  .white-anchor{
+      text-decoration:none;
+      color:white;
+  }
+  .blue-anchor{
+      text-decoration: none;
+      color:rgb(0, 102, 255)
+  }
+  #search-top{
+    display:flex;
+    height:auto;
+    align-items: center;
+    background-color: white;
+    padding-top:2px;
+    position: fixed;
+    top:0;
+    width:100%;
+}
+#profile-div{
+    padding-top:45px;
+}
+#search-imgdiv{
+    width:45px;
+    height:45px;
+    background-color: var(--image);
+    border-radius:50%;
+}
+#search-room-form{
+    margin:auto;
+}
+#search-room-form>input{
+    font-size:1.3rem;
+    font-weight:bold;
+    padding:2px 2px 2px 5px;
+    color:rgb(65, 65, 65);
+    border-radius:8px;
+    width:60vw;
+    border:2px solid grey
+}
+#profile-space{
+    height:150px;
+    background-color: var(--image);
+}
+#profile-image{
+    background-color:orangered;
+    margin:auto;
+    height:130px;
+    width: 130px;
+    margin-top:-75px;
+    border-radius: 50%;
+}
+#profile-status{
+    display:flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+#special-image{
+    width:100%;
+    height:100%;
+    border-radius: 0;
+    object-fit: cover;
+}
+.profile-statuss{
+    font-size:1.3rem;
+    padding:5px 15px 5px 15px;
+    border-radius:8px;
+    border:none;
+    background-color: blue;
+    color:white
+}
+#profile-info{
+    height:90px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+#profile-detail{
+    margin-top:30px;
+    margin-bottom:10px;
+    display:flex;
+}
+#profile-detail>h4{
+    margin:1px 7px;
+    opacity:0.8
+}
+#room-nav-button{
+    display:flex;
+    justify-content: space-between;
+}
+#room-nav-button>button{
+    font-size:1.2rem;
+    padding:4px 8px 4px 8px;
+    border-radius:7px;
+    border:none;
+    font-weight:bolder
+}
+#room-button{
+    margin-left:10px;
+}
+#comment-button{
+    margin-right:10px;
+    background-color:transparent;
+}
+#comments{
+    display:none;
+}
+#rooms{
+    padding:20px 2px 1px 10px
+}
+#recent-imgdiv{
+    width:50px;
+    margin-left:2px;
+    height:45px;
+    border-radius: 50%;
+    background-color: var(--image);
+}
+#recent-top-bloom{
+    display:flex;
+    justify-content: center;
+    font-size:1.4rem;
+    font-weight: bolder;
+    width:100%;
+}
+#recent-recent{
+    padding:2px;
+}
+#recent-recent>h2{
+    margin-top:15px;
+    margin-bottom:10px;
+    text-align:center;
+}
+.recent-recent-items{
+    display:flex;
+
+}
+.recent-imgdiv{
+    width:45px;
+    height:45px;
+    border-radius: 50%;
+    background-color: var(--image);
+    margin-right:5px;
+}
+.recent-item-span{
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+.recent-section-div{
+    height:2px;
+    margin:20px 15px;
+    background-color: var(--blue);
+    border-radius: 20px;
+}
+.recent-item-click{
+    margin-top:10px;
+    text-align: center;
+    
+}
+#recent-recent-parent{
+    width:100%;
+
+}
+#recent-recent-style{
+    width:5px;
+    margin-left:5px;
+    margin-right:5px;
+    background-color:grey;
+}
+#recent-item-top{
+    display:flex;
+    align-items:center;
+}
+#recent-item-top>h3{
+    width:100%;
+    text-align:right;
+    opacity:0.7    
+}
+#recent-top-host{
+    margin-top:40px;
+}
+#recent-split{
+    height:4px;
+    background-color: var(--blue);
+    margin:12px 2px;
+}
+#recent-top-host>h2{
+    text-align:center;
+}
+#recent-top-host{
+    padding:2px 5px 2px 5px;
+}
+#dm-div{
+    position:fixed;
+    right:20px;
+    bottom:50px;
+}
+#dm-div>p{
+    margin-bottom:5px;
+    font-size:1.1rem;
+    font-weight:bolder;
+}
+#send-div{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    margin:auto;
+    height:65px;
+    width:65px;
+    background-color: blue;
+    border-radius: 50%;
+}
+#send-dm{
+    font-size:1.8rem;
+    color:white
+}
+
+#to-home-button{
+    border:none;
+    margin-right:5px; 
+    background-color: transparent;
+}
+#chat-to-home{
+    font-size:1.7rem;
+}
