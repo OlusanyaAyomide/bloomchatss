@@ -584,3 +584,9 @@
 #         return render(request,'room-search.html',context)
 #     else:
 #         return redirect('/')
+
+from http.client import HTTPResponse
+
+
+def demo(request):
+    return HTTPResponse('Alive')
